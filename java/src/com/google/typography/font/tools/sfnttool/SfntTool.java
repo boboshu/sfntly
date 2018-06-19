@@ -36,6 +36,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
 /**
  * @author Raph Levien
  */
@@ -76,6 +79,19 @@ public class SfntTool {
           tool.eot = true;
         } else if (option.equals("x") || option.equals("mtx")) {
           tool.mtx = true;
+        } else if (option.equals("f") || option.equals("file")) {
+          File filename = new File(args[i + 1]);
+          InputStreamReader reader = new InputStreamReader(new FileInputStream(filename));
+          BufferedReader br = new BufferedReader(reader);
+          StringBuffer stringBuffer = new StringBuffer();
+          String line;
+          while ((line = br.readLine())!= null) {
+              stringBuffer.append(line);
+          }
+          // String line = br.readLine();
+          tool.subsetString = stringBuffer.toString();
+          br.close();
+          i++;
         } else {
           printUsage();
           System.exit(1);
@@ -112,6 +128,8 @@ public class SfntTool {
     System.out.println("\t-w,-woff\t Output WOFF format");
     System.out.println("\t-e,-eot\t Output EOT format");
     System.out.println("\t-x,-mtx\t Enable Microtype Express compression for EOT format");
+    System.out.println("\t-f,-file\t read string form file to subset");
+
   }
 
   public void subsetFontFile(File fontFile, File outputFile, int nIters)
