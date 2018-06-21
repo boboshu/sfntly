@@ -81,7 +81,7 @@ public class SfntTool {
           tool.mtx = true;
         } else if (option.equals("f") || option.equals("file")) {
           File filename = new File(args[i + 1]);
-          InputStreamReader reader = new InputStreamReader(new FileInputStream(filename));
+          InputStreamReader reader = new InputStreamReader(new FileInputStream(filename),"UTF-8");
           BufferedReader br = new BufferedReader(reader);
           StringBuffer stringBuffer = new StringBuffer();
           String line;
